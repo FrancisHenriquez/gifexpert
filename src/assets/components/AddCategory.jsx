@@ -1,24 +1,31 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 
-export const AddCategory = () => {
 
-    const [inputValue, setinputValue] = useState('Ragnarok');
+export const AddCategory = ({ onNewCategory }) => {
 
-    const onInputChange = (event) => {
-        
-        setinputValue( event.target.value);
+    const [ inputValue, setInputValue ] = useState('dragon ball');
+
+    const onInputChange = ({ target }) => {
+        setInputValue( target.value );
     }
-    const onSubmit = (event) => { event.preventDefault();
-            console.log(inputValue)}
-  return (
-    <form onSubmit={ (event)=> onSubmit(event)}>
 
-        <input 
-            type='text'
-            placeholder='buscar gifs'
-            value={inputValue}
-            onChange={(event) => onInputChange(event)}/>    
-    </form>
-    
-  )
+    const onSubmit = ( event ) => {
+        event.preventDefault();
+        if( inputValue.trim().length <= 1) return;
+
+        // setCategories( categories => [ inputValue, ...categories ]);
+        setInputValue('');
+        onNewCategory( inputValue.trim() );
+    }
+
+    return (
+        <form onSubmit={ onSubmit }>
+            <input 
+                type="text"
+                placeholder="Buscar gifs"
+                value={ inputValue }
+                onChange={ onInputChange }
+            />
+        </form>
+    )
 }
